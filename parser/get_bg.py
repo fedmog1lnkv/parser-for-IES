@@ -1,6 +1,9 @@
-import os
-import pandas as pd
 import datetime
+import os
+
+import pandas as pd
+
+import parser.utils as utils
 
 
 def open_file_in_pandas(filename):
@@ -34,16 +37,20 @@ def get_bg_pandas(filename):
     UES_BG_Sputnik = filter_UES_BG_Sputnik(data)
     UES_BG_Sputnik.insert(0, 'Date Time', [get_date_time(filename)] * 2)
 
-    return UES_BG_Sputnik[
-        [
-            'Date Time',
-            'NE',
-            'Card',
-            'Object',
-            'Tx Optical Power(dBm)',
-            'Rx Optical Power(dBm)',
-        ]
-    ]
+    UES_BG_Sputnik['NE'] = UES_BG_Sputnik['NE'].replace('UES_BG', 'UES_BG - Sputnik')
+    UES_BG_Sputnik['NE'] = UES_BG_Sputnik['NE'].replace('Sputnik', 'Sputnik - UES_BG')
+
+    UES_BG_Sputnik['damping'] = UES_BG_Sputnik['Tx Optical Power(dBm)'] - UES_BG_Sputnik['Rx Optical Power(dBm)']
+
+    return utils.rename_bg_dataframe(UES_BG_Sputnik[
+                                         [
+                                             'Date Time',
+                                             'NE',
+                                             'Tx Optical Power(dBm)',
+                                             'Rx Optical Power(dBm)',
+                                             'damping'
+                                         ]
+                                     ])
 
 
 def get_bg_all_files_pandas(folder_path):
