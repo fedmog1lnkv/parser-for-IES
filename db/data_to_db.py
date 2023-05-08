@@ -7,7 +7,7 @@ import parser.get_bg as bg
 import parser.get_xdm as xdm
 
 
-def json_for_idb(data, table_name='damping_data'):
+def json_for_idb(data, table_name):
     json_body = json.loads(data.to_json(orient='records'))
     data_json = []
 
@@ -29,17 +29,17 @@ def json_for_idb(data, table_name='damping_data'):
 
 
 def data_to_db(client_data, db_name, data):
-    my_Client = InfluxDBClient(host=client_data[0]['host'], port=client_data[0]['port'],
-                               username=client_data[0]['username'], password=client_data[0]['password'])
+    my_Client = InfluxDBClient(host=client_data['host'], port=client_data['port'],
+                               username=client_data['username'], password=client_data['password'])
     db_list = my_Client.get_list_database()
     check = False
     for db in db_list:
-        if (db['name'] == 'test'):
+        if (db['name'] == 'ies_data'):
             check = True
     if check == False:
-        my_Client.create_database('test')
+        my_Client.create_database('ies_data')
     my_Client.switch_database(db_name)
-    my_Client.write_points(json_for_idb(data))
+    my_Client.write_points(json_for_idb(data, 'channels_data'))
 
 
 if __name__ == '__main__':
@@ -51,6 +51,6 @@ if __name__ == '__main__':
     # print(bg_data_json)
     # xdm_data_json = json_for_idb(xdm_data)
     # print(xdm_data_json)
-    client_data = [{'host': 'localhost', 'port': 8086, 'username': 'root', 'password': ''}]
+    client_data = {'host': '51.250.45.188', 'port': 8086, 'username': 'root', 'password': ''}
     data_to_db(client_data, 'channels_data', bg_data)
     data_to_db(client_data, 'channels_data', xdm_data)
