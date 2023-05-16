@@ -5,6 +5,7 @@ from influxdb import InfluxDBClient
 
 import parser.get_bg as bg
 import parser.get_xdm as xdm
+import parser.get_pusk as pusk
 
 
 def json_for_idb(data, table_name):
@@ -46,11 +47,10 @@ if __name__ == '__main__':
     bg_data = bg.get_bg_all_files_pandas(bg_folder_path)
     xdm_folder_path = "data/XDM/"
     xdm_data = xdm.get_xdm_all_files_pandas(xdm_folder_path)
-    # bg_data_json = json_for_idb(bg_data)
-    # print(bg_data_json)
-    # xdm_data_json = json_for_idb(xdm_data)
-    # print(xdm_data_json)
+    pusk_folder_path = "data/PUSK/"
+    pusk_data = xdm.get_pusk_all_files_pandas(pusk_folder_path)
     data_to_db('ies_data', bg_data, '51.250.45.188')
     data_to_db('ies_data', xdm_data, '51.250.45.188')
+    data_to_db('ies_data', pusk_data, '51.250.45.188')
     print('ok')
 
