@@ -13,18 +13,21 @@ def json_for_idb(data, table_name):
     data_json = []
 
     for i in range(len(json_body)):
-        data_json.append({
-            'measurement': table_name,
-            'tags': {
-               'in_out_channels': json_body[i]['in_out_channels']
-            },
-            'time': datetime.datetime.fromtimestamp((json_body[i]['date_time']/1000)-28800).strftime('%Y-%m-%dT%H:%M:%SZ'),
-            'fields': {
-                'tx_optical_power': json_body[i]['tx_optical_power'],
-                'rx_optical_power': json_body[i]['rx_optical_power'],
-                'damping': json_body[i]['damping']
-            }
-        })
+        if json_body[i]['date_time'] == None:
+            continue
+        else:
+            data_json.append({
+                'measurement': table_name,
+                'tags': {
+                   'in_out_channels': json_body[i]['in_out_channels']
+                },
+                'time': datetime.datetime.fromtimestamp((json_body[i]['date_time'])/1000-28800).strftime('%Y-%m-%dT%H:%M:%SZ'),
+                'fields': {
+                    'tx_optical_power': json_body[i]['tx_optical_power'],
+                    'rx_optical_power': json_body[i]['rx_optical_power'],
+                    'damping': json_body[i]['damping']
+                }
+            })
 
     return data_json
 
