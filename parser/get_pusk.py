@@ -81,7 +81,7 @@ def get_pusk_pandas(filename):
 
     BGES_NPS_4['damping'] = BGES_NPS_4['tx_optical_power'] - BGES_NPS_4['rx_optical_power']
 
-    BGES_NPS_4['in_out_cannels'] = BGES_NPS_4['in_out_cannels'].replace('dtrssampa4', 'NPS4 - BGES').replace(
+    BGES_NPS_4['in_out_channels'] = BGES_NPS_4['in_out_channels'].replace('dtrssampa4', 'NPS4 - BGES').replace(
         'dtrssampai6', 'BGES - NPS4')
 
     BGES_NPS_4 = BGES_NPS_4.sort_values('date_time')
