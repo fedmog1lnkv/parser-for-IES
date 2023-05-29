@@ -52,8 +52,8 @@ if __name__ == '__main__':
     xdm_data = xdm.get_xdm_all_files_pandas(xdm_folder_path)
     pusk_folder_path = "data/PUSK/"
     pusk_data = pusk.get_pusk_all_files_pandas(pusk_folder_path)
-    data_to_db('ies_data', bg_data, '51.250.45.188')
-    data_to_db('ies_data', xdm_data, '51.250.45.188')
-    data_to_db('ies_data', pusk_data, '51.250.45.188')
+    data_to_db('ies_data', bg_data)
+    data_to_db('ies_data', xdm_data)
+    data_to_db('ies_data', pusk_data)
     print('ok')
 
